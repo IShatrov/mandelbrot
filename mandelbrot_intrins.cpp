@@ -1,5 +1,7 @@
 #include "mandelbrot_intrins.h"
 
+#define PXL_CLR(n) (sf::Color(0, 0, 255 - n))
+
 void mandelbrot()
 {
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Mandelbrot");
@@ -54,17 +56,7 @@ void mandelbrot_start(sf::RenderWindow& window)
 
 			__m128 iterations = mandelbrot_calc(x0_vec, y0_vec);
 
-			float* ptr = (float*)(&iterations);
-			float* ptrx = (float*)(&x0_vec);
-			float* ptry = (float*)(&y0_vec);
-
-			for (int i = 0; i < VECTOR_SIZE; i++)
-			{
-				float n = ptr[i];
-
-				draw_pxl(window, ptrx[i], ptry[i], sf::Color(0, 0, 255 - n));
-			}
-
+			mandelbrot_draw(window, (float*)(&iterations), (float*)(&x0_vec), (float*)(&y0_vec));
 		}
 	}
 
@@ -110,3 +102,17 @@ __m128 mandelbrot_calc(__m128 x0_vec, __m128 y0_vec)
 
 	return iterations;
 }
+
+void mandelbrot_draw(sf::RenderWindow& window, float *iter_ptr, float *x_ptr, float *y_ptr)
+{
+	for (int i = 0; i < VECTOR_SIZE; i++)
+	{
+		float iter_number = iter_ptr[i];
+
+		draw_pxl(window, x_ptr[i], y_ptr[i], PXL_CLR(iter_number));
+	}
+
+	return;
+}
+
+#undef PXL_CLR

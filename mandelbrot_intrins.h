@@ -18,3 +18,5 @@ void wait_until_closed(sf::RenderWindow& window);
 void mandelbrot_start(sf::RenderWindow& window);
 
 __m128 mandelbrot_calc(__m128 x0_vec, __m128 y0_vec);
+
+void mandelbrot_draw(sf::RenderWindow& window, float* iter_ptr, float* x_ptr, float* y_ptr);
