@@ -14,3 +14,5 @@ void mandelbrot();
 char check_iter(__m128 iterations);
 
 void wait_until_closed(sf::RenderWindow& window);
+
+void mandelbrot_start(sf::RenderWindow& window);

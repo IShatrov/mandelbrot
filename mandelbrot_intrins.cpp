@@ -4,6 +4,45 @@ void mandelbrot()
 {
 	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Mandelbrot");
 
+	mandelbrot_start(window);
+
+	window.display();
+
+	wait_until_closed(window);
+
+	return;
+}
+
+char check_iter(__m128 iterations)
+{
+	char flag = 0;
+	float *ptr = (float*)(&iterations);
+
+	for (int i = 0; i < VECTOR_SIZE; i++)
+	{
+		if (ptr[i] < MAX_ITERATIONS) flag = 1;
+	}
+
+	return flag;
+}
+
+void wait_until_closed(sf::RenderWindow& window)
+{
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+	}
+
+	return;
+}
+
+void mandelbrot_start(sf::RenderWindow& window)
+{
 	__m128 vec_twos = _mm_set_ps1(2);
 	__m128 vec_rmax_sq = _mm_set_ps1(R_MAX_SQ);
 
@@ -12,7 +51,7 @@ void mandelbrot()
 		__m128 y0_vec = _mm_set_ps1(y0);
 		__m128 y0_sq_vec = _mm_set_ps1(y0 * y0);
 
-		for(float x0 = -MAX_X; x0 < MAX_X; x0 += VECTOR_SIZE * dX)
+		for (float x0 = -MAX_X; x0 < MAX_X; x0 += VECTOR_SIZE * dX)
 		{
 			int n_iterations = 0;
 
@@ -48,9 +87,9 @@ void mandelbrot()
 				n_iterations++;
 			}
 
-			float *ptr = (float*)(&iterations);
-			float *ptrx = (float*)(&x0_vec);
-			float *ptry = (float*)(&y0_vec);
+			float* ptr = (float*)(&iterations);
+			float* ptrx = (float*)(&x0_vec);
+			float* ptry = (float*)(&y0_vec);
 
 			for (int i = 0; i < VECTOR_SIZE; i++)
 			{
@@ -61,38 +100,4 @@ void mandelbrot()
 
 		}
 	}
-
-	window.display();
-
-	wait_until_closed(window);
-
-	return;
-}
-
-char check_iter(__m128 iterations)
-{
-	char flag = 0;
-	float *ptr = (float*)(&iterations);
-
-	for (int i = 0; i < VECTOR_SIZE; i++)
-	{
-		if (ptr[i] < MAX_ITERATIONS) flag = 1;
-	}
-
-	return flag;
-}
-
-void wait_until_closed(sf::RenderWindow& window)
-{
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-	}
-
-	return;
 }
