@@ -17,7 +17,7 @@ void mandelbrot()
 			int n_iterations = 0;
 
 			__m128 iterations = _mm_set_ps1(0);
-			__m128 is_out = _mm_set_ps1(0);
+			__m128 is_in = _mm_set_ps1(0);
 
 			__m128 x0_vec = _mm_set_ps(x0, x0 + dX, x0 + 2 * dX, x0 + 3 * dX);
 
@@ -42,8 +42,8 @@ void mandelbrot()
 
 				__m128 r_sq = _mm_add_ps(xn_sq, yn_sq);
 
-				is_out = _mm_cmpge_ps(r_sq, vec_rmax_sq);
-				iterations = _mm_add_ps(iterations, is_out);
+				is_in = _mm_cmpge_ps(r_sq, vec_rmax_sq);
+				iterations = _mm_add_ps(iterations, is_in);
 
 				n_iterations++;
 			}
@@ -56,27 +56,15 @@ void mandelbrot()
 			{
 				float n = ptr[i];
 
-				//printf("n = %f ", n);
-				//printf("%f ", ptrx[i]);
-
 				draw_pxl(window, ptrx[i], ptry[i], sf::Color(0, 0, 255 - n));
 			}
-			//putchar('\n');
 
 		}
 	}
 
 	window.display();
 
-	while (window.isOpen())
-	{
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-	}
+	wait_until_closed(window);
 
 	return;
 }
@@ -92,4 +80,19 @@ char check_iter(__m128 iterations)
 	}
 
 	return flag;
+}
+
+void wait_until_closed(sf::RenderWindow& window)
+{
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+	}
+
+	return;
 }
