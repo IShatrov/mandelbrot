@@ -8,3 +8,7 @@
 void coord_to_pxl(float x, float y, float* x_pxl, float* y_pxl);
 
 void draw_pxl(sf::RenderWindow& window, float x, float y, sf::Color clr);
+
+time_t start_timer();
+
+void end_timer(time_t start_time);

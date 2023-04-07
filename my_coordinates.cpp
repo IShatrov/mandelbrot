@@ -21,3 +21,15 @@ void draw_pxl(sf::RenderWindow& window, float x, float y, sf::Color clr)
 
 	return;
 }
+
+time_t start_timer()
+{
+	return time(NULL);
+}
+
+void end_timer(time_t start_time)
+{
+	time_t fin_time = time(NULL);
+
+	printf("Time spent: %d seconds\n", (int) (fin_time - start_time));
+}

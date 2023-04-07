@@ -6,7 +6,7 @@
 #include <emmintrin.h>
 
 #include "mandelbrot_consts.h"
-#include "my_coordinates.h"
+#include "../my_coordinates.h"
 
 void mandelbrot();
 

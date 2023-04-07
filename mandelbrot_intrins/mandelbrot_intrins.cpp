@@ -45,6 +45,8 @@ void wait_until_closed(sf::RenderWindow& window)
 
 void mandelbrot_start(sf::RenderWindow& window)
 {
+	time_t start_time = start_timer();
+
 	for (float y0 = -MAX_Y; y0 < MAX_Y; y0 += dY)
 	{
 		__m128 y0_vec = _mm_set_ps1(y0);
@@ -59,6 +61,8 @@ void mandelbrot_start(sf::RenderWindow& window)
 			mandelbrot_draw(window, (float*)(&iterations), (float*)(&x0_vec), (float*)(&y0_vec));
 		}
 	}
+
+	end_timer(start_time);
 
 	return;
 }
